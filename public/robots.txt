@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://codefloorit.in/sitemap.xml
