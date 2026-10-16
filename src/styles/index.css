@@ -1452,6 +1452,73 @@ html:not(.anim) .shead__line { transform: none; }
 }
 .hv__say.is-on { opacity: 1; translate: -50% 0; }
 
+/* hero robot: "Click on Me!" bubble, hover lift and a soft attention glow (opens the chat) */
+.hv__robot::before {
+  content: "";
+  position: absolute;
+  inset: 8% 4% 4%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(0 212 255 / 0.32), transparent 68%);
+  opacity: 0;
+  animation: hv-beacon 4s ease-in-out 2s infinite;
+  pointer-events: none;
+}
+.hv__robot .rb { transition: scale var(--t-fast) var(--ease), filter var(--t-fast); }
+.hv__robot:hover .rb, .hv__robot:has(:focus-visible) .rb { scale: 1.04; filter: drop-shadow(0 0 18px rgb(0 212 255 / 0.45)); }
+.hv__cta {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 3;
+  width: max-content;
+  margin: auto;
+  padding: 8px 16px;
+  border: 1px solid rgb(22 119 255 / 0.35);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 12px 26px -12px rgb(22 119 255 / 0.55);
+  font: 600 0.9rem var(--font-d);
+  color: var(--blue-ink);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 0.25s, scale 0.15s var(--ease), box-shadow var(--t-fast);
+  animation: hv-bob 3.2s ease-in-out infinite;
+}
+/* pointer toward the robot */
+.hv__cta::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border: solid rgb(22 119 255 / 0.35);
+  border-width: 0 1px 1px 0;
+  background: #fff;
+  rotate: 45deg;
+}
+/* soft pulse ring */
+.hv__cta::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  box-shadow: 0 0 0 6px rgb(0 212 255 / 0.25);
+  opacity: 0;
+  animation: hv-ping 3.2s ease-out infinite;
+  pointer-events: none;
+}
+.hv__cta:hover { box-shadow: 0 14px 30px -10px rgb(22 119 255 / 0.7); }
+.hv__cta:active { scale: 0.95; }
+.hv__cta.is-off { opacity: 0; pointer-events: none; }
+@keyframes hv-bob { 50% { translate: 0 -5px; } }
+@keyframes hv-ping { 0% { opacity: 0.9; scale: 0.96; } 60%, 100% { opacity: 0; scale: 1.12; } }
+@keyframes hv-beacon { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+.lite .hv__cta, .lite .hv__cta::before, .lite .hv__robot::before { animation: none; }
+
 /* Sukaram's introduction: a dialogue panel under the hero robot. It is anchored to the
    bottom of the stage and grows upward, so his face stays clear and nothing reflows. */
 .hvx { position: relative; }
@@ -2073,6 +2140,7 @@ html:not(.anim) .shead__line { transform: none; }
   .hv, .hv__svg, .hv__panel, .lattice g, .aurora, .ambient i, .pglow { transform: none; }
   .hv__plate, .hv__svg { translate: none; rotate: none; }
   .btn:active { scale: none; }
+  .hv__robot:hover .rb, .hv__robot:has(:focus-visible) .rb { scale: none; }
   .nav__plink { opacity: 1; transform: none; }
   .card:hover, .tech__card:hover, .why__list li:hover, .way:hover { translate: none; }
 }

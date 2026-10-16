@@ -7,7 +7,7 @@ import Robot from "./Robot";
 /* Hero stage: Sukaram, the Codefloor IT robot, inside orbital rings, with floating glass
    interface panels. He introduces the company to first-time visitors in a speech bubble
    (the words live in data/sukaram.js) and reacts when you tap his face, belly, antenna
-   or hands — tapping him also brings the introduction back. */
+   or hands — tapping him, or the "Click on Me!" bubble, opens the chat (Assistant.jsx). */
 
 const REACTIONS = {
   face: { mood: "angry", say: "Hey! Not the face!" },
@@ -38,6 +38,9 @@ function HeroRobot({ pose, onPoke }) {
 
   return (
     <div className="hv__robot">
+      <button type="button" className={`hv__cta ${reaction ? "is-off" : ""}`} aria-label="Click on me: chat with Sukaram, the Codefloor IT assistant" onClick={onPoke}>
+        Click on Me!
+      </button>
       <Robot mood={reaction ? REACTIONS[reaction].mood : pose} track />
       {ZONES.map(([zone, key, label]) => (
         <button key={zone} type="button" className={`hv__zone hv__zone--${zone}`} aria-label={label} onClick={() => poke(key)} />
@@ -136,7 +139,7 @@ export default function HeroVisual() {
   useEffect(() => {
     const t = setTimeout(() => {
       try {
-        if (localStorage.getItem(INTRO_SEEN_KEY)) return;
+        if (localStorage.getItem(INTRO_SEEN_KEY) || document.getElementById("assistant-panel")) return;
         localStorage.setItem(INTRO_SEEN_KEY, "1");
       } catch {
         return; // storage blocked: stay quiet rather than repeat on every visit; tapping him still works
@@ -174,7 +177,13 @@ export default function HeroVisual() {
           </g>
         </svg>
 
-        <HeroRobot pose={pose} onPoke={() => setStep((s) => Math.max(s, 0))} />
+        <HeroRobot
+          pose={pose}
+          onPoke={() => {
+            setStep(-1); // the chat panel takes over from the introduction bubble
+            window.dispatchEvent(new Event("sukaram:open"));
+          }}
+        />
 
         <div className="hv__panel hv__panel--code" aria-hidden="true">
           <div className="hv__dots"><i /><i /><i /></div>
