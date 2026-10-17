@@ -42,6 +42,12 @@ function HeroRobot({ pose, onPoke }) {
         Click on Me!
       </button>
       <Robot mood={reaction ? REACTIONS[reaction].mood : pose} track />
+      <button
+        type="button"
+        className="hv__tap"
+        aria-label="Chat with Sukaram, the Codefloor IT assistant"
+        onClick={onPoke}
+      />
       {ZONES.map(([zone, key, label]) => (
         <button key={zone} type="button" className={`hv__zone hv__zone--${zone}`} aria-label={label} onClick={() => poke(key)} />
       ))}
