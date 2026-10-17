@@ -7,7 +7,8 @@ import Robot from "./Robot";
 /* Hero stage: Sukaram, the Codefloor IT robot, inside orbital rings, with floating glass
    interface panels. He introduces the company to first-time visitors in a speech bubble
    (the words live in data/sukaram.js) and reacts when you tap his face, belly, antenna
-   or hands — tapping him, or the "Click on Me!" bubble, opens the chat (Assistant.jsx). */
+   or hands. Tapping the rest of him, or the "Click on Me!" bubble, replays the
+   introduction. The chat lives only behind the floating button (Assistant.jsx). */
 
 const REACTIONS = {
   face: { mood: "angry", say: "Hey! Not the face!" },
@@ -24,7 +25,7 @@ const ZONES = [
 ];
 const LAST = INTRO.length - 1;
 
-function HeroRobot({ pose, onPoke }) {
+function HeroRobot({ pose, onIntro }) {
   const [reaction, setReaction] = useState(null);
   const timer = useRef(0);
   useEffect(() => () => clearTimeout(timer.current), []);
@@ -33,20 +34,19 @@ function HeroRobot({ pose, onPoke }) {
     clearTimeout(timer.current);
     setReaction(key);
     timer.current = setTimeout(() => setReaction(null), 2600);
-    onPoke();
   };
 
   return (
     <div className="hv__robot">
-      <button type="button" className={`hv__cta ${reaction ? "is-off" : ""}`} aria-label="Click on me: chat with Sukaram, the Codefloor IT assistant" onClick={onPoke}>
+      <button type="button" className={`hv__cta ${reaction ? "is-off" : ""}`} aria-label="Click on me: Sukaram introduces Codefloor IT" onClick={onIntro}>
         Click on Me!
       </button>
       <Robot mood={reaction ? REACTIONS[reaction].mood : pose} track />
       <button
         type="button"
         className="hv__tap"
-        aria-label="Chat with Sukaram, the Codefloor IT assistant"
-        onClick={onPoke}
+        aria-label="Ask Sukaram to introduce Codefloor IT"
+        onClick={onIntro}
       />
       {ZONES.map(([zone, key, label]) => (
         <button key={zone} type="button" className={`hv__zone hv__zone--${zone}`} aria-label={label} onClick={() => poke(key)} />
@@ -141,25 +141,42 @@ const hex = (r) =>
 export default function HeroVisual() {
   const [step, setStep] = useState(-1); // -1: introduction closed
 
-  // First visit only: once the hero has settled, Sukaram starts talking by himself.
+  // Once per browsing session, Sukaram starts talking by himself once he has been on screen
+  // for a moment (on phones he sits below the fold, so a timer alone would talk to nobody).
+  // A permanent flag used to mean returning visitors, and anyone with storage blocked, never heard him.
+  const stage = useRef(null);
   useEffect(() => {
-    const t = setTimeout(() => {
+    let t = 0;
+    const start = () => {
+      io.disconnect();
+      if (document.getElementById("assistant-panel")) return; // don't talk over an open chat
       try {
-        if (localStorage.getItem(INTRO_SEEN_KEY) || document.getElementById("assistant-panel")) return;
-        localStorage.setItem(INTRO_SEEN_KEY, "1");
+        if (sessionStorage.getItem(INTRO_SEEN_KEY)) return;
+        sessionStorage.setItem(INTRO_SEEN_KEY, "1");
       } catch {
-        return; // storage blocked: stay quiet rather than repeat on every visit; tapping him still works
+        // storage blocked: introduce anyway, the flag only prevents repeats
       }
       setStep((s) => Math.max(s, 0));
-    }, 1200);
-    return () => clearTimeout(t);
+    };
+    const io = new IntersectionObserver(
+      ([e]) => {
+        clearTimeout(t);
+        if (e.isIntersecting) t = setTimeout(start, 1200);
+      },
+      { threshold: 0.98, rootMargin: "0px 0px -90px 0px" } // the whole stage plus the bubble hanging below it
+    );
+    io.observe(stage.current);
+    return () => {
+      clearTimeout(t);
+      io.disconnect();
+    };
   }, []);
 
   const pose = step < 0 ? "idle" : step === 0 ? "greet" : step === LAST ? "happy" : INTRO[step].items ? "point" : "talk";
 
   return (
     <div className="hvx">
-      <div className="hv">
+      <div className="hv" ref={stage}>
         <div className="hv__glow" aria-hidden="true" />
         <svg className="hv__svg" viewBox="0 0 520 520" fill="none" aria-hidden="true">
           <defs>
@@ -183,13 +200,7 @@ export default function HeroVisual() {
           </g>
         </svg>
 
-        <HeroRobot
-          pose={pose}
-          onPoke={() => {
-            setStep(-1); // the chat panel takes over from the introduction bubble
-            window.dispatchEvent(new Event("sukaram:open"));
-          }}
-        />
+        <HeroRobot pose={pose} onIntro={() => setStep(0)} />
 
         <div className="hv__panel hv__panel--code" aria-hidden="true">
           <div className="hv__dots"><i /><i /><i /></div>

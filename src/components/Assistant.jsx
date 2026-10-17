@@ -66,13 +66,6 @@ export default function Assistant() {
 
   useEffect(() => () => clearTimeout(bye.current), []);
 
-  // the hero robot (HeroVisual.jsx) asks for the panel with this event
-  useEffect(() => {
-    const onOpen = () => openPanel();
-    window.addEventListener("sukaram:open", onOpen);
-    return () => window.removeEventListener("sukaram:open", onOpen);
-  }, []);
-
   function openPanel(question = null) {
     clearTimeout(bye.current);
     setHint(null);

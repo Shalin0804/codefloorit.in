@@ -18,16 +18,16 @@ export const BRIEF_KEY = "sukaram-brief";
 
 const [FAQ_WHAT, , , FAQ_AFTER, FAQ_START] = HOME_FAQ;
 
-/** localStorage key set once the hero introduction has played for this visitor. */
+/** sessionStorage key set once the hero introduction has played in this browsing session. */
 export const INTRO_SEEN_KEY = "sukaram-intro-seen";
 
 /* The introduction Sukaram gives from the home page hero, one speech bubble per entry.
    `items` are listed under the text, `actions` are the buttons that close the introduction.
    Services and process come from the same data the rest of the site uses. */
 export const INTRO = [
-  { text: `Hey there! 👋 Welcome to ${COMPANY.name}! I'm Sukaram, your digital guide. Let me introduce you to what we do!` },
+  { text: `Hi there! 👋 I'm Sukaram, your friendly robot from ${COMPANY.name}!` },
   {
-    text: `Founded in ${COMPANY.founded}, ${COMPANY.name} is a technology company that helps businesses turn their ideas into digital solutions. We build modern websites and custom web applications designed around business needs.`,
+    text: "We help businesses turn their ideas into digital solutions through business websites, custom web applications, e-commerce development, and website modernization. Our goal is to build useful, reliable, and user-friendly technology that helps businesses grow.",
   },
   {
     text: "Here's how we can help you!",
@@ -37,7 +37,7 @@ export const INTRO = [
     text: `Every project starts with understanding your requirements, then moves through ${PROCESS.length} stages: ${PROCESS.map((s) => s.title).join(", ")}.`,
   },
   {
-    text: "That's us in a nutshell. Where would you like to go next?",
+    text: "Want to explore what we do? Take a look around our website!",
     actions: [
       { to: "/services", label: "Explore Our Services" },
       { to: "/work", label: "View Our Projects" },
