@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect } from "react";
 
-export const SITE_URL = "https://codefloorit.in";
+/* Production serves www and redirects the bare domain to it, so canonical URLs use www. */
+export const SITE_URL = "https://www.codefloorit.in";
 export const SITE_NAME = "Codefloor IT";
 const OG_IMAGE = `${SITE_URL}/og.png`;
 
@@ -22,8 +23,10 @@ export function headHtml(cfg) {
   return [
     `<title>${esc(s.fullTitle)}</title>`,
     `<meta name="description" content="${esc(s.description)}" />`,
-    s.noindex ? `<meta name="robots" content="noindex" />` : `<link rel="canonical" href="${s.url}" />`,
+    s.noindex ? `<meta name="robots" content="noindex" />` : `<meta name="robots" content="index, follow" />
+    <link rel="canonical" href="${s.url}" />`,
     `<meta property="og:type" content="${s.type}" />`,
+    `<meta property="og:locale" content="en_IN" />`,
     `<meta property="og:title" content="${esc(s.fullTitle)}" />`,
     `<meta property="og:description" content="${esc(s.description)}" />`,
     `<meta property="og:url" content="${s.url}" />`,

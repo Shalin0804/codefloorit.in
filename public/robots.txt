@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://codefloorit.in/sitemap.xml
+Sitemap: https://www.codefloorit.in/sitemap.xml

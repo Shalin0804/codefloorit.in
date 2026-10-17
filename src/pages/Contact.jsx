@@ -8,7 +8,7 @@ export default function Contact() {
   useSeo({
     title: "Contact Codefloor IT — Let's Build Your Idea",
     description:
-      "Tell Codefloor IT about your project, business challenge or technology requirements. Email info@codefloorit.com or call +91 76984 75791.",
+      "Tell Codefloor IT about your project, business challenge or technology requirements. Based in Ahmedabad, Gujarat. Email info@codefloorit.in or call +91 76984 75791.",
     path: "/contact",
     jsonLd: breadcrumbLd(trail),
   });

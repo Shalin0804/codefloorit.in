@@ -1178,6 +1178,7 @@ html:not(.anim) .shead__line { transform: none; }
 .footer li + li { margin-top: 4px; }
 .footer li a { display: inline-flex; align-items: center; gap: 8px; padding-block: 5px; color: #33465d; overflow-wrap: anywhere; transition: color 0.25s; }
 .footer li a:hover { color: var(--blue-ink); text-decoration: underline; }
+.footer__loc { display: flex; align-items: center; gap: 8px; padding-block: 5px; color: #33465d; }
 .footer__base {
   display: flex;
   flex-wrap: wrap;

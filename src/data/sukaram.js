@@ -9,7 +9,7 @@ import { projects } from "./projects.js";
 
 export const COMPANY = {
   name: "Codefloor IT",
-  url: "https://codefloorit.in/",
+  url: "https://www.codefloorit.in/",
   founded: 2025,
 };
 

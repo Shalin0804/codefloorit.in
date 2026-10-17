@@ -6,7 +6,7 @@ no animation library. Every route is prerendered to static HTML at build time an
 ```bash
 npm install
 npm run dev       # dev server
-npm run build     # client build + SSR build + prerender (dist/*.html, sitemap.xml)
+npm run build     # client build + SSR build + prerender (dist/*.html, sitemap.xml, llms.txt)
 npm run check     # verifies dist: links, titles, canonicals, one <h1>, no removed services
 npm run lint      # oxlint
 npm run preview   # serve dist/
@@ -26,10 +26,12 @@ knows and says lives in `src/data/sukaram.js` (greeting, suggested questions, an
 keyword matching for typed questions, section tips); `components/Assistant.jsx` and
 `AssistantPanel.jsx` only render it. He is a scripted guide, not an AI model, and says so
 in the panel header — to add real AI, replace `respond()` in that file with a call to your
-own backend. On a visitor's first home page visit the hero robot (`components/HeroVisual.jsx`)
-plays the `INTRO` sequence from that file in a speech bubble (`localStorage` key
-`sukaram-intro-seen`; clear it to see it play by itself again — tapping the robot reopens it
-any time). Sections can offer a one-line tip
+own backend. Once per browsing session, as soon as the hero stage and its speech bubble are on
+screen, the hero robot (`components/HeroVisual.jsx`) plays the `INTRO` sequence from that file
+(`sessionStorage` key `sukaram-intro-seen`; open a new tab to see it again). Tapping his face,
+belly, antenna or hands plays a reaction; tapping the rest of him or "Click on Me!" replays the
+introduction. The hero robot never opens the chat: only the floating button does.
+Sections can offer a one-line tip
 with `data-robot-hint="services|work|process|contact"`. Run `node scripts/check-sukaram.mjs`
 after editing his answers.
 
@@ -57,8 +59,9 @@ The hidden honeypot field is a first filter; add server-side spam protection at 
 ## Deployment
 
 Static output in `dist/`. `vercel.json` enables clean URLs (`/services` -> `services.html`);
-unknown URLs get `404.html`. If the domain changes, update `SITE_URL` in `src/lib/seo.js`,
-`index.html` and `public/robots.txt`.
+unknown URLs get `404.html`. The canonical host is `https://www.codefloorit.in` because Vercel
+serves www and redirects the bare domain to it. If that changes, update `SITE_URL` in
+`src/lib/seo.js`, `index.html`, `public/robots.txt` and `scripts/check-dist.mjs`.
 
 Project visuals are illustrative CSS mockups (labelled as such). Replace `Mockup` in
 `src/components/cards.jsx` with real screenshots when available.

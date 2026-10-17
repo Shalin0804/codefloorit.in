@@ -9,7 +9,7 @@ export default function About() {
   useSeo({
     title: "About Codefloor IT — Built on Engineering",
     description:
-      "Codefloor IT is a technology-focused development company. We understand business requirements first, then build practical, maintainable software.",
+      "Codefloor IT is a technology-focused development company in Ahmedabad, Gujarat. We understand business requirements first, then build practical, maintainable software.",
     path: "/about",
     jsonLd: breadcrumbLd(trail),
   });

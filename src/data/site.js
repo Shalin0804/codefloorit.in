@@ -1,8 +1,9 @@
 export const CONTACT = {
-  email: "info@codefloorit.com",
+  email: "info@codefloorit.in",
   phoneDisplay: "+91 76984 75791",
   phoneHref: "tel:+917698475791",
   whatsapp: "917698475791",
+  location: "Ahmedabad, Gujarat, India",
 };
 
 /** WhatsApp chat link, optionally with a pre-filled message. */

@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { Mail, MessageCircle, Phone } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { CONTACT, NAV, whatsappLink } from "../data/site";
 import { services } from "../data/services";
 import { Logo, Marquee, Reveal } from "./ui";
@@ -51,6 +51,9 @@ export default function Footer() {
             </li>
             <li>
               <a href={whatsappLink()} target="_blank" rel="noopener noreferrer"><MessageCircle size={16} aria-hidden="true" /> WhatsApp</a>
+            </li>
+            <li className="footer__loc">
+              <MapPin size={16} aria-hidden="true" /> {CONTACT.location}
             </li>
           </ul>
         </Reveal>
