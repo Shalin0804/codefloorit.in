@@ -1935,7 +1935,7 @@ html:not(.anim) .shead__line { transform: none; }
   font: 600 clamp(1.3rem, 2.4vw, 2.1rem) var(--font-d);
   white-space: nowrap;
   color: transparent;
-  -webkit-text-stroke: 1px rgb(16 36 58 / 0.6); /* 0.42 was below 3:1 contrast */
+  -webkit-text-stroke: 1px rgb(16 36 58 / 0.66); /* below ~0.64 it fails 4.5:1 contrast */
 }
 .mq span:nth-child(even) { color: var(--text); -webkit-text-stroke: 0; }
 .mq i { width: 10px; height: 10px; border-radius: 2px; background: var(--grad); rotate: 45deg; }
