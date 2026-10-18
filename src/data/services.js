@@ -78,6 +78,8 @@ export const services = [
       { h: "Fast and findable", p: "Semantic markup, correct headings, metadata and performance work are part of the build, not an afterthought." },
     ],
     faqs: [
+      { q: "What does business website development include?", a: "Planning the pages and content structure, designing and building responsive pages, contact and enquiry flows, search-friendly titles, headings and metadata, and — where content changes often — a way for your team to edit it. The exact scope is agreed before the build starts." },
+      { q: "What affects the cost of a business website?", a: "Mainly the number of unique page layouts, how much of the content is ready, custom functionality such as bookings or payments, and any integrations. We quote once we understand the scope rather than from a fixed price list." },
       { q: "Can our team update the content ourselves?", a: "Yes. Where content changes often we add a simple admin area or content system so you can update text and images without a developer." },
       { q: "How long does a business website take?", a: "It depends on the number of unique pages, how ready the content is and any custom functionality. We give a realistic timeline once we understand the scope." },
     ],
@@ -132,6 +134,7 @@ export const services = [
       { h: "Keep what works", p: "Existing content, URLs and search visibility are carried over carefully rather than thrown away." },
     ],
     faqs: [
+      { q: "How is an existing website modernized?", a: "We review the current site's speed, structure, content and code, then fix what affects visitors most first — loading speed, mobile layout, navigation, accessibility and metadata. If the foundation makes every change expensive, we recommend a rebuild that keeps your content and URLs." },
       { q: "Do we need a full rebuild?", a: "Not always. Sometimes targeted fixes are enough; sometimes the foundation makes every change expensive and a rebuild is cheaper in the long run. We tell you which we think applies and why." },
       { q: "Will we lose our search rankings?", a: "We plan the change to protect them: existing URLs are preserved or redirected, and titles, headings and content are carried across." },
     ],
@@ -159,6 +162,7 @@ export const services = [
       { h: "Improve steadily", p: "Regular small improvements keep a product current and avoid the need for a costly overhaul later." },
     ],
     faqs: [
+      { q: "What is included in website maintenance?", a: "Typically bug fixes, content and layout updates, software and dependency updates, performance checks and small improvements. The exact scope, and how requests are raised, is agreed with each client before support starts." },
       { q: "Can you maintain a site you did not build?", a: "Usually, yes. We first review the existing code to understand its condition, then tell you honestly what we can take on." },
       { q: "How is support arranged?", a: "That is agreed per client — it depends on how much change you expect and how quickly you need responses. We set it out clearly before starting." },
     ],

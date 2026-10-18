@@ -161,8 +161,20 @@ export function CtaBand({ title = "Have an idea? Let's build it.", sub = "Tell u
   );
 }
 
-export function Logo({ className = "" }) {
-  return <img src="/logo.webp" width="384" height="172" alt="Codefloor IT" className={`logo ${className}`} decoding="async" />;
+/** `sizes` is the rendered width: 46px tall (40px on phones) in the header, 64px in the footer. */
+export function Logo({ className = "", sizes = "(max-width: 640px) 89px, 103px" }) {
+  return (
+    <img
+      src="/logo.webp"
+      srcSet="/logo-160.webp 160w, /logo.webp 384w"
+      sizes={sizes}
+      width="384"
+      height="172"
+      alt="Codefloor IT"
+      className={`logo ${className}`}
+      decoding="async"
+    />
+  );
 }
 
 export function StatusBadge({ status }) {

@@ -21,7 +21,7 @@ function Detail({ s }) {
 
   useSeo({
     title: s.seoTitle,
-    description: `${s.title} by Codefloor IT. ${s.short}`,
+    description: `${s.title} by Codefloor IT, Ahmedabad. ${s.short}`,
     path,
     jsonLd: [breadcrumbLd(trail), serviceLd({ name: s.title, description: s.short, path }), faqLd(s.faqs)],
   });
