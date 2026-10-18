@@ -62,6 +62,8 @@ Static output in `dist/`. `vercel.json` enables clean URLs (`/services` -> `serv
 unknown URLs get `404.html`. The canonical host is `https://www.codefloorit.in` because Vercel
 serves www and redirects the bare domain to it. If that changes, update `SITE_URL` in
 `src/lib/seo.js`, `index.html`, `public/robots.txt` and `scripts/check-dist.mjs`.
+`docs/codefloorit-com-redirects.json` is a page-to-page redirect map for the separate
+codefloorit.com Vercel project; it does nothing in this repo.
 
 Project visuals are illustrative CSS mockups (labelled as such). Replace `Mockup` in
 `src/components/cards.jsx` with real screenshots when available.

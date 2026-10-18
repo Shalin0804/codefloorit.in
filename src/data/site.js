@@ -50,7 +50,7 @@ export const PRINCIPLES = [
 export const HOME_FAQ = [
   {
     q: "What does Codefloor IT build?",
-    a: "We design and develop custom software, web applications, business websites and e-commerce experiences. We also modernize existing websites and provide ongoing maintenance and technical support.",
+    a: "Codefloor IT is a web and software development company based in Ahmedabad, Gujarat. We design and develop custom software, web applications, business websites and e-commerce experiences. We also modernize existing websites and provide ongoing maintenance and technical support.",
   },
   {
     q: "Do I need to know which technology I need before contacting you?",
@@ -67,5 +67,9 @@ export const HOME_FAQ = [
   {
     q: "How do we start?",
     a: "Send us a short description of what you want to build, who it is for and the problem it solves. We will reply with an honest read on scope, approach and fit.",
+  },
+  {
+    q: "Where is Codefloor IT based?",
+    a: "In Ahmedabad, Gujarat, India. You can reach us by email, phone or WhatsApp — all the details are on the Contact page.",
   },
 ];

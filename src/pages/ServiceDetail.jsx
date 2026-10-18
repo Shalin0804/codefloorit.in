@@ -20,7 +20,7 @@ function Detail({ s }) {
   const Icon = s.icon;
 
   useSeo({
-    title: s.title,
+    title: s.seoTitle,
     description: `${s.title} by Codefloor IT. ${s.short}`,
     path,
     jsonLd: [breadcrumbLd(trail), serviceLd({ name: s.title, description: s.short, path }), faqLd(s.faqs)],

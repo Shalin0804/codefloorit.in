@@ -1,0 +1,99 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "https://www.codefloorit.in/",
+      "permanent": true
+    },
+    {
+      "source": "/services",
+      "destination": "https://www.codefloorit.in/services",
+      "permanent": true
+    },
+    {
+      "source": "/work",
+      "destination": "https://www.codefloorit.in/work",
+      "permanent": true
+    },
+    {
+      "source": "/insights",
+      "destination": "https://www.codefloorit.in/insights",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "https://www.codefloorit.in/about",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "https://www.codefloorit.in/contact",
+      "permanent": true
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "https://www.codefloorit.in/privacy-policy",
+      "permanent": true
+    },
+    {
+      "source": "/terms-and-conditions",
+      "destination": "https://www.codefloorit.in/terms",
+      "permanent": true
+    },
+    {
+      "source": "/services/business-website-development",
+      "destination": "https://www.codefloorit.in/services/business-website-development",
+      "permanent": true
+    },
+    {
+      "source": "/services/custom-web-application-development",
+      "destination": "https://www.codefloorit.in/services/web-application-development",
+      "permanent": true
+    },
+    {
+      "source": "/services/ecommerce-development",
+      "destination": "https://www.codefloorit.in/services/ecommerce-development",
+      "permanent": true
+    },
+    {
+      "source": "/services/website-modernization",
+      "destination": "https://www.codefloorit.in/services/website-modernization",
+      "permanent": true
+    },
+    {
+      "source": "/services/website-maintenance-support",
+      "destination": "https://www.codefloorit.in/services/maintenance-technical-support",
+      "permanent": true
+    },
+    {
+      "source": "/work/aranya-palace",
+      "destination": "https://www.codefloorit.in/work/aranya-palace",
+      "permanent": true
+    },
+    {
+      "source": "/work/oracle-legal-consultancy",
+      "destination": "https://www.codefloorit.in/work/oracle-legal-consultancy",
+      "permanent": true
+    },
+    {
+      "source": "/insights/website-vs-web-application",
+      "destination": "https://www.codefloorit.in/insights/website-vs-web-application",
+      "permanent": true
+    },
+    {
+      "source": "/insights/website-development-cost-factors-india",
+      "destination": "https://www.codefloorit.in/insights/business-website-cost-india",
+      "permanent": true
+    },
+    {
+      "source": "/insights/how-to-choose-web-development-company-ahmedabad",
+      "destination": "https://www.codefloorit.in/insights/choose-software-company",
+      "permanent": true
+    },
+    {
+      "source": "/insights/custom-crm-vs-ready-made-crm",
+      "destination": "https://www.codefloorit.in/insights/custom-vs-ready-made-software",
+      "permanent": true
+    }
+  ]
+}

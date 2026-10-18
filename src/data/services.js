@@ -4,6 +4,7 @@ import { Blocks, LayoutDashboard, Globe, ShoppingCart, RefreshCw, LifeBuoy } fro
 export const services = [
   {
     slug: "custom-software-development",
+    seoTitle: "Custom Software Development Services",
     icon: Blocks,
     title: "Custom Software Development",
     short: "Software tailored to your business workflows and requirements.",
@@ -30,6 +31,7 @@ export const services = [
   },
   {
     slug: "web-application-development",
+    seoTitle: "Custom Web Application Development",
     icon: LayoutDashboard,
     title: "Web Application Development",
     short: "Scalable dashboards, portals, booking systems and business platforms.",
@@ -56,6 +58,7 @@ export const services = [
   },
   {
     slug: "business-website-development",
+    seoTitle: "Business Website Development Services",
     icon: Globe,
     title: "Business Website Development",
     short: "Professional websites focused on clarity, credibility, usability and conversion.",
@@ -82,6 +85,7 @@ export const services = [
   },
   {
     slug: "ecommerce-development",
+    seoTitle: "E-commerce Website Development",
     icon: ShoppingCart,
     title: "E-commerce Development",
     short: "Online shopping experiences and commerce systems with suitable payment options.",
@@ -108,6 +112,7 @@ export const services = [
   },
   {
     slug: "website-modernization",
+    seoTitle: "Website Modernization & Redesign",
     icon: RefreshCw,
     title: "Website Modernization",
     short: "Better architecture, performance, usability and maintainability for existing sites.",
@@ -134,6 +139,7 @@ export const services = [
   },
   {
     slug: "maintenance-technical-support",
+    seoTitle: "Website Maintenance & Technical Support",
     icon: LifeBuoy,
     title: "Maintenance & Technical Support",
     short: "Ongoing technical assistance, fixes and improvements after launch.",

@@ -1,7 +1,7 @@
 /* Runs after the client and SSR builds: renders every route to static HTML with
    its own <head> tags (so content is crawlable without JavaScript) and writes sitemap.xml
    and llms.txt (a plain-text index of the same pages, from the same titles and descriptions). */
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -9,7 +9,12 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = (p) => resolve(root, "dist", p);
 const { render, routes, SITE_URL } = await import(pathToFileURL(resolve(root, "dist-ssr/entry-server.js")));
 
-const template = readFileSync(dist("index.html"), "utf8");
+// preload the two latin fonts: otherwise they are found only after the CSS is parsed, and text repaints late
+const fonts = readdirSync(dist("assets")).filter((f) => /^(inter|space-grotesk)-latin-wght-normal-.*\.woff2$/.test(f));
+const template = readFileSync(dist("index.html"), "utf8").replace(
+  "</head>",
+  () => fonts.map((f) => `  <link rel="preload" href="/assets/${f}" as="font" type="font/woff2" crossorigin />\n`).join("") + "  </head>"
+);
 const pages = [];
 const unesc = (s) => s.replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&amp;/g, "&");
 
