@@ -34,7 +34,10 @@ export async function render(url) {
           <App />
         </StaticRouter>
       </SeoSink>
-    </StrictMode>
+    </StrictMode>,
+    // without this React 19.2 moves large boundaries (the whole page) into a hidden <div> and
+    // reveals them with an inline script, which delays the first paint of the content
+    { progressiveChunkSize: Infinity }
   );
   return { html: await new Response(prelude).text(), head: headHtml(sink.current) };
 }

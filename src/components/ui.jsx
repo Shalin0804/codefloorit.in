@@ -162,7 +162,7 @@ export function CtaBand({ title = "Have an idea? Let's build it.", sub = "Tell u
 }
 
 export function Logo({ className = "" }) {
-  return <img src="/logo.png" width="384" height="172" alt="Codefloor IT" className={`logo ${className}`} decoding="async" />;
+  return <img src="/logo.webp" width="384" height="172" alt="Codefloor IT" className={`logo ${className}`} decoding="async" />;
 }
 
 export function StatusBadge({ status }) {
