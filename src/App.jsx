@@ -7,17 +7,33 @@ import Assistant from "./components/Assistant";
 import Home from "./pages/Home";
 import { useScrollBar, useSpotlight } from "./lib/motion";
 
-const Services = lazy(() => import("./pages/Services"));
-const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
-const Solutions = lazy(() => import("./pages/Solutions"));
-const Work = lazy(() => import("./pages/Work"));
-const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
-const About = lazy(() => import("./pages/About"));
-const Insights = lazy(() => import("./pages/Insights"));
-const ArticleDetail = lazy(() => import("./pages/ArticleDetail"));
-const Contact = lazy(() => import("./pages/Contact"));
-const Legal = lazy(() => import("./pages/Legal"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+/* After a deploy, a tab still running the old build asks for page files that no longer exist.
+   Load the page fresh instead of showing a blank screen (at most once a minute, so an outage cannot loop). */
+const page = (load) =>
+  lazy(() =>
+    load().catch((err) => {
+      try {
+        if (Date.now() - Number(sessionStorage.getItem("chunk-reload")) < 60000) throw err;
+        sessionStorage.setItem("chunk-reload", Date.now());
+      } catch {
+        throw err;
+      }
+      location.reload();
+      return new Promise(() => {});
+    })
+  );
+
+const Services = page(() => import("./pages/Services"));
+const ServiceDetail = page(() => import("./pages/ServiceDetail"));
+const Solutions = page(() => import("./pages/Solutions"));
+const Work = page(() => import("./pages/Work"));
+const ProjectDetail = page(() => import("./pages/ProjectDetail"));
+const About = page(() => import("./pages/About"));
+const Insights = page(() => import("./pages/Insights"));
+const ArticleDetail = page(() => import("./pages/ArticleDetail"));
+const Contact = page(() => import("./pages/Contact"));
+const Legal = page(() => import("./pages/Legal"));
+const NotFound = page(() => import("./pages/NotFound"));
 
 /** Scroll to the hash target, or to the top (and move focus to <main>) on page change. */
 function useRouteScroll() {
