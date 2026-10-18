@@ -162,7 +162,7 @@ export function CtaBand({ title = "Have an idea? Let's build it.", sub = "Tell u
 }
 
 /** `sizes` is the rendered width: 46px tall (40px on phones) in the header, 64px in the footer. */
-export function Logo({ className = "", sizes = "(max-width: 640px) 89px, 103px" }) {
+export function Logo({ className = "", sizes = "(max-width: 640px) 89px, 103px", loading }) {
   return (
     <img
       src="/logo.webp"
@@ -172,6 +172,7 @@ export function Logo({ className = "", sizes = "(max-width: 640px) 89px, 103px" 
       height="172"
       alt="Codefloor IT"
       className={`logo ${className}`}
+      loading={loading}
       decoding="async"
     />
   );

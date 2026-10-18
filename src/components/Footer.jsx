@@ -14,7 +14,7 @@ export default function Footer() {
       <div className="container footer__grid">
         <Reveal className="footer__brand">
           <Link to="/" aria-label="Codefloor IT — home">
-            <Logo sizes="143px" />
+            <Logo sizes="143px" loading="lazy" />
           </Link>
           <p>
             Codefloor IT designs and develops custom software, web applications and websites for
