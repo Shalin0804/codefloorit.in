@@ -37,6 +37,7 @@ export default function Solutions() {
     description:
       "The kinds of software Codefloor IT can design and build for hospitality, logistics, healthcare, business operations, e-commerce and customer support.",
     path: "/solutions",
+    pageType: "CollectionPage",
     jsonLd: breadcrumbLd(trail),
   });
 

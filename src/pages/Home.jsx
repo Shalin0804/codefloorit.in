@@ -10,7 +10,7 @@ import { ServiceCard, SolutionCard } from "../components/cards";
 import { ContactSection, ProcessSection, TechShowcase, WhySection } from "../components/sections";
 import { WorkScene, ZoomIn } from "../components/scenes";
 import HeroVisual from "../components/HeroVisual";
-import HeroNetwork from "../components/HeroNetwork";
+import Scene3D from "../components/Scene3D";
 
 /* Pinned opening scene: the wrapper is taller than the viewport, the hero sticks,
    and scroll progress (--p) zooms the camera into the robot while the copy lifts away. */
@@ -18,25 +18,24 @@ function Hero() {
   const pointer = usePointerVars();
   const scene = useScrollProgress("pin");
   return (
-    <div className="scene scene--hero" ref={scene} data-robot="idle">
+    <div className="scene scene--hero" ref={scene} data-robot="idle" data-morph>
       <section className="hero" ref={pointer}>
         <div className="aurora" aria-hidden="true"><i /><i /><i /></div>
         <div className="gridbg gridbg--drift" aria-hidden="true" />
-        <HeroNetwork />
         <div className="pglow" aria-hidden="true" />
         <div className="container hero__grid">
           <div className="hero__copy">
-            <p className="eyebrow hero__in" style={{ "--i": 0 }}>Software development company</p>
+            <p className="eyebrow hero__in" style={{ "--i": 0 }}>Web &amp; software development · Ahmedabad</p>
             <h1 className="hero__title hero__in" style={{ "--i": 1 }}>
-              Engineering Digital Experiences That <span className="grad">Move Businesses Forward.</span>
+              Websites &amp; Software That <span className="grad">Grow Your Business.</span>
             </h1>
             <p className="hero__sub hero__in" style={{ "--i": 2 }}>
-              We design and develop modern digital products, custom software, and intelligent technology
-              solutions that help businesses operate smarter and grow confidently.
+              From a business website that brings in enquiries to custom software that runs your
+              operations, we plan, design, build and support it with you, for businesses across India.
             </p>
             <div className="actions hero__in" style={{ "--i": 3 }}>
-              <Btn to="/contact" magnetic arrow>Let's Build Something</Btn>
-              <Btn to="/work" variant="outline">Explore Our Work</Btn>
+              <Btn to="/contact" magnetic arrow>Discuss Your Project</Btn>
+              <Btn to="/work" variant="outline">See Our Work</Btn>
             </div>
           </div>
           <div className="hero__visual">
@@ -64,10 +63,11 @@ export default function Home() {
 
   return (
     <>
+      <Scene3D kind="morph" />
       <Hero />
       <Marquee reverse items={techGroups.flatMap((g) => g.items)} />
 
-      <section className="section tint" id="services" data-robot="point" data-robot-hint="services">
+      <section className="section tint" id="services" data-robot="point" data-morph data-robot-hint="services">
         <ZoomIn className="container">
           <div className="shead-row">
             <SectionHeading
@@ -85,7 +85,7 @@ export default function Home() {
         </ZoomIn>
       </section>
 
-      <section className="section" data-robot="point">
+      <section className="section" data-robot="point" data-morph>
         <div className="container">
           <div className="shead-row">
             <SectionHeading

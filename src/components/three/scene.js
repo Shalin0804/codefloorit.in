@@ -4,9 +4,19 @@
      "laptop"  — a detailed floating laptop that opens and turns toward the pointer
      "hexes"   — six hexagonal tiles orbiting a core (Solutions)
      "windows" — layered interface windows that fan apart with the pointer (Work)
-     "rings"   — a core with orbiting rings and satellites (Insights, Contact) */
+     "rings"   — a core with orbiting rings and satellites (Insights, Contact)
+     "morph"   — one particle field behind the whole home page: galaxy, logo hexagon, globe,
+                 screen, helix and portal, flowing into each other as sections scroll by */
 import {
   ACESFilmicToneMapping,
+  AdditiveBlending,
+  BufferGeometry,
+  Color,
+  Float32BufferAttribute,
+  Points,
+  PointsMaterial,
+  Sprite,
+  SpriteMaterial,
   AmbientLight,
   BoxGeometry,
   CanvasTexture,
@@ -451,8 +461,222 @@ function rings(scene) {
   };
 }
 
-const SCENES = { cluster, laptop, hexes, windows, rings };
-const CAMERA_Z = { cluster: 17, laptop: 11, hexes: 19, windows: 15, rings: 22 };
+/** Soft round dot, shared by the particles and the galaxy's core glow. */
+function dotTexture() {
+  const c = document.createElement("canvas");
+  c.width = c.height = 64;
+  const g = c.getContext("2d");
+  const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  grad.addColorStop(0, "rgba(255,255,255,1)");
+  grad.addColorStop(0.35, "rgba(255,255,255,0.5)");
+  grad.addColorStop(1, "rgba(255,255,255,0)");
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 64, 64);
+  const tex = new CanvasTexture(c);
+  tex.colorSpace = SRGBColorSpace;
+  return tex;
+}
+
+/* ---------- morph: one particle field that changes shape section by section ---------- */
+
+const TAU = Math.PI * 2;
+
+/** Spiral galaxy, tilted toward the camera; also returns each particle's normalised radius for colouring. */
+function galaxyShape(n) {
+  const out = new Float32Array(n * 3);
+  const radius = new Float32Array(n);
+  const R = 6.5;
+  const cos = Math.cos(1.05);
+  const sin = Math.sin(1.05);
+  // spread falls off with a cubic so most particles hug their arm
+  const scatter = (r) => Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? -1 : 1) * (0.25 + r * 0.12);
+  for (let i = 0; i < n; i++) {
+    const r = Math.pow(Math.random(), 1.5) * R;
+    const a = ((i % 3) / 3) * TAU + r * 0.95;
+    const x = Math.cos(a) * r + scatter(r);
+    const y = scatter(r) * 0.45;
+    const z = Math.sin(a) * r + scatter(r);
+    out.set([x, y * cos - z * sin, y * sin + z * cos], i * 3);
+    radius[i] = r / R;
+  }
+  return { out, radius };
+}
+
+/** Four nested hexagon outlines with depth: the shape of the logo mark. */
+function hexShape(n) {
+  const out = new Float32Array(n * 3);
+  for (let i = 0; i < n; i++) {
+    const side = i % 6;
+    const k = Math.random();
+    const a0 = (side / 6) * TAU + Math.PI / 6;
+    const a1 = ((side + 1) / 6) * TAU + Math.PI / 6;
+    const ring = 3.2 + (i % 4) * 0.35;
+    out.set([(Math.cos(a0) * (1 - k) + Math.cos(a1) * k) * ring, (Math.sin(a0) * (1 - k) + Math.sin(a1) * k) * ring, rnd(1.6)], i * 3);
+  }
+  return out;
+}
+
+/** Globe of latitude rings. */
+function globeShape(n) {
+  const out = new Float32Array(n * 3);
+  const rings = 18;
+  const r = 4.2;
+  for (let i = 0; i < n; i++) {
+    const lat = ((i % rings) / (rings - 1) - 0.5) * Math.PI * 0.94;
+    const lon = Math.random() * TAU;
+    out.set([Math.cos(lat) * Math.cos(lon) * r, Math.sin(lat) * r, Math.cos(lat) * Math.sin(lon) * r], i * 3);
+  }
+  return out;
+}
+
+/** A floating screen: frame, header bar and content rows, slightly turned. */
+function screenShape(n) {
+  const out = new Float32Array(n * 3);
+  const W = 8;
+  const H = 5;
+  for (let i = 0; i < n; i++) {
+    let x;
+    let y;
+    const pick = i % 10;
+    if (pick < 3) {
+      // frame outline, walked clockwise
+      const t = Math.random() * 2 * (W + H);
+      x = t < W ? t : t < W + H ? W : t < 2 * W + H ? 2 * W + H - t : 0;
+      y = t < W ? 0 : t < W + H ? t - W : t < 2 * W + H ? H : 2 * (W + H) - t;
+    } else if (pick < 5) {
+      x = Math.random() * W;
+      y = H - 0.5 + Math.random() * 0.3;
+    } else {
+      // content rows of varying length
+      const row = i % 6;
+      x = 0.5 + Math.random() * W * (0.45 + ((row * 37) % 50) / 100);
+      y = 0.6 + row * 0.62;
+    }
+    out.set([(x - W / 2) * 0.96, y - H / 2, (x - W / 2) * -0.28 + rnd(0.12)], i * 3);
+  }
+  return out;
+}
+
+/** Double helix, joined by rungs. */
+function helixShape(n) {
+  const out = new Float32Array(n * 3);
+  const r = 1.9;
+  for (let i = 0; i < n; i++) {
+    const strand = i % 3;
+    if (strand < 2) {
+      const t = Math.random();
+      const a = t * TAU * 2.4 + strand * Math.PI;
+      out.set([Math.cos(a) * r + rnd(0.15), (t - 0.5) * 9, Math.sin(a) * r + rnd(0.15)], i * 3);
+    } else {
+      const t = Math.round(Math.random() * 40) / 40; // rungs at fixed heights
+      const a = t * TAU * 2.4;
+      const s = Math.random() * 2 - 1;
+      out.set([Math.cos(a) * r * s, (t - 0.5) * 9, Math.sin(a) * r * s], i * 3);
+    }
+  }
+  return out;
+}
+
+/** A portal: a thick glowing ring around a faint twisted vortex. */
+function ringShape(n) {
+  const out = new Float32Array(n * 3);
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * TAU;
+    const inner = i % 4 === 0;
+    const r = inner ? Math.pow(Math.random(), 0.6) * 3.4 : 4 + rnd(0.6);
+    const twist = inner ? r * 0.6 : 0;
+    out.set([Math.cos(a + twist) * r, Math.sin(a + twist) * r, rnd(inner ? 0.4 : 0.5)], i * 3);
+  }
+  return out;
+}
+
+/* Sections opt in with data-morph. The field holds shape i while section i is centred in
+   the viewport and flows into the next shape between them, swirling outward mid-way. */
+function morph(scene) {
+  const N = 7000;
+  const { out: galaxy, radius } = galaxyShape(N);
+  const shapes = [galaxy, hexShape(N), globeShape(N), screenShape(N), helixShape(N), ringShape(N)];
+  const OFFSET_X = [3.6, 4.4, 4.6, 4.2, 4.8, 4.4]; // keep each shape to the right of the copy
+
+  const inner = new Color(0xeafcff);
+  const mid = new Color(CYAN);
+  const outer = new Color(VIOLET);
+  const col = new Float32Array(N * 3);
+  const c = new Color();
+  for (let i = 0; i < N; i++) {
+    const k = radius[i];
+    (k < 0.4 ? c.copy(inner).lerp(mid, k / 0.4) : c.copy(mid).lerp(outer, (k - 0.4) / 0.6)).toArray(col, i * 3);
+  }
+  const drift = new Float32Array(N * 3).map(() => rnd(2));
+
+  const geo = new BufferGeometry();
+  const attr = new Float32BufferAttribute(galaxy, 3);
+  const pos = attr.array; // the attribute copies its input: write to its own array
+  geo.setAttribute("position", attr);
+  geo.setAttribute("color", new Float32BufferAttribute(col, 3));
+  const map = dotTexture();
+  const soft = { map, transparent: true, depthWrite: false, blending: AdditiveBlending, toneMapped: false };
+  const field = new Points(geo, new PointsMaterial({ size: 0.1, vertexColors: true, ...soft }));
+
+  // a loose shell of far stars for depth
+  const far = new Float32Array(1200 * 3).map(() => rnd(40));
+  const farGeo = new BufferGeometry();
+  farGeo.setAttribute("position", new Float32BufferAttribute(far, 3));
+  const stars = new Points(farGeo, new PointsMaterial({ size: 0.07, color: 0xbfd8ff, opacity: 0.7, ...soft }));
+
+  const core = new Sprite(new SpriteMaterial({ map, color: 0x7fe3ff, ...soft }));
+  core.scale.setScalar(3.2);
+
+  const spin = new Group();
+  spin.add(field, core);
+  spin.rotation.z = 0.32;
+  const rig = new Group();
+  rig.add(spin);
+  scene.add(rig, stars);
+
+  const sections = [...document.querySelectorAll("[data-morph]")].slice(0, shapes.length);
+  const last = Math.max(0, sections.length - 1);
+  let cur = 0;
+
+  const target = () => {
+    const middle = window.innerHeight / 2;
+    const centres = sections.map((el) => {
+      const r = el.getBoundingClientRect();
+      return r.top + Math.min(r.height, window.innerHeight) / 2;
+    });
+    if (!centres.length || middle <= centres[0]) return 0;
+    for (let i = 0; i < last; i++) {
+      if (middle <= centres[i + 1]) return i + (middle - centres[i]) / (centres[i + 1] - centres[i]);
+    }
+    return last;
+  };
+  const smooth = (x) => x * x * (3 - 2 * x);
+
+  return (dt, t, _pointer, ndc) => {
+    cur = Math.min(last, Math.max(0, cur + (target() - cur) * ease(dt, 0.004)));
+    const from = Math.min(Math.floor(cur), last);
+    const to = Math.min(from + 1, last);
+    const k = smooth(cur - from);
+    const a = shapes[from];
+    const b = shapes[to];
+    const swirl = Math.sin(k * Math.PI) * 1.4;
+    for (let i = 0; i < N * 3; i++) pos[i] = a[i] + (b[i] - a[i]) * k + drift[i] * swirl;
+    attr.needsUpdate = true;
+
+    spin.rotation.y += dt * (0.06 + swirl * 0.25);
+    rig.rotation.y += (ndc.x * 0.35 - rig.rotation.y) * ease(dt);
+    rig.rotation.x += (-ndc.y * 0.25 - rig.rotation.x) * ease(dt);
+    rig.position.x = OFFSET_X[from] + (OFFSET_X[to] - OFFSET_X[from]) * k;
+    stars.rotation.y += dt * 0.004;
+
+    // full brightness in the hero, dimmer behind reading content
+    field.material.opacity = Math.max(0.8, 1 - cur * 0.2);
+    core.material.opacity = Math.max(0, 1 - cur * 2) * (0.85 + Math.sin(t * 1.4) * 0.15);
+  };
+}
+
+const SCENES = { cluster, laptop, hexes, windows, rings, morph };
+const CAMERA_Z = { cluster: 17, laptop: 11, hexes: 19, windows: 15, rings: 22, morph: 17 };
 
 /** Mounts a scene on the canvas. Returns { start, stop, dispose }, or null without WebGL. */
 export function mount(canvas, kind) {
@@ -507,7 +731,8 @@ export function mount(canvas, kind) {
   let raf = 0;
   let last = 0;
   const frame = (now) => {
-    const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
+    // the first rAF timestamp can predate start()'s performance.now(): never let dt go negative
+    const dt = Math.min(0.05, Math.max(0, (now - last) / 1000) || 0.016);
     last = now;
     update(dt, now / 1000, pointer, ndc);
     renderer.render(scene, camera);

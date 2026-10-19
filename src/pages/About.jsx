@@ -11,6 +11,7 @@ export default function About() {
     description:
       "Codefloor IT is a technology-focused development company in Ahmedabad, Gujarat. We understand business requirements first, then build practical, maintainable software.",
     path: "/about",
+    pageType: "AboutPage",
     jsonLd: breadcrumbLd(trail),
   });
 

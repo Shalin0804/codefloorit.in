@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router";
 import "@fontsource-variable/inter/wght.css";
 import "@fontsource-variable/space-grotesk/wght.css";
 import App from "./App";
+import { initFx } from "./lib/fx";
 
 const root = document.getElementById("root");
 const app = (
@@ -25,6 +26,7 @@ document.querySelectorAll(".reveal").forEach((el) => {
   if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add("is-in");
 });
 html.classList.add("anim");
+initFx();
 
 // Production pages are prerendered (scripts/prerender.mjs) and hydrated; dev starts empty.
 if (root.firstElementChild) hydrateRoot(root, app);

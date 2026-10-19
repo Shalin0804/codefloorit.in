@@ -10,6 +10,7 @@ export default function Contact() {
     description:
       "Tell Codefloor IT about your project, business challenge or technology requirements. Based in Ahmedabad, Gujarat. Email info@codefloorit.in or call +91 76984 75791.",
     path: "/contact",
+    pageType: "ContactPage",
     jsonLd: breadcrumbLd(trail),
   });
 

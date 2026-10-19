@@ -51,28 +51,42 @@ export function SolutionCard({ solution, index }) {
   );
 }
 
-/** Illustrative layout mockup. Deliberately abstract: it is not a product screenshot. */
+/** Illustrative layout mockup. Deliberately abstract: it is not a product screenshot.
+    The page is two screens tall; CSS scrolls it like a site being browsed (see .mock__page). */
 export function Mockup({ scene }) {
+  const health = scene === "healthcare";
   return (
     <div className={`mock mock--${scene}`} aria-hidden="true">
       <div className="mock__bar"><i /><i /><i /><span /></div>
       <div className="mock__body">
-        {scene === "healthcare" ? (
-          <>
-            <div className="mock__side"><b /><b /><b /><b /></div>
-            <div className="mock__main">
-              <div className="mock__tiles"><b /><b /><b /></div>
-              <div className="mock__rows"><b /><b /><b /><b /></div>
-            </div>
-          </>
-        ) : (
-          <div className="mock__main">
-            <div className="mock__hero">
-              <span /><span /><em />
-            </div>
-            <div className="mock__tiles"><b /><b /><b /></div>
+        <div className="mock__page">
+          <div className="mock__screen">
+            {health ? (
+              <>
+                <div className="mock__side"><b /><b /><b /><b /></div>
+                <div className="mock__main">
+                  <div className="mock__tiles"><b /><b /><b /></div>
+                  <div className="mock__rows"><b /><b /><b /><b /></div>
+                </div>
+              </>
+            ) : (
+              <div className="mock__main">
+                <div className="mock__hero">
+                  <span /><span /><em />
+                </div>
+                <div className="mock__tiles"><b /><b /><b /></div>
+              </div>
+            )}
           </div>
-        )}
+          <div className="mock__screen">
+            {health && <div className="mock__side"><b /><b /><b /><b /></div>}
+            <div className="mock__main">
+              <div className="mock__rows"><b /><b /><b /><b /><b /></div>
+              <div className="mock__tiles"><b /><b /><b /></div>
+              {!health && <i className="mock__foot" />}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

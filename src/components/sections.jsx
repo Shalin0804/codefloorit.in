@@ -9,7 +9,7 @@ import Scene3D from "./Scene3D";
 
 export function TechShowcase() {
   return (
-    <section className="section tech" data-robot="think">
+    <section className="section tech" data-robot="think" data-morph>
       <Ambient />
       <ZoomIn className="container">
         <div className="tech__head">
@@ -94,7 +94,7 @@ function Lattice() {
       </defs>
       <g className="lattice__back">
         {cells.map(([x, y]) => (
-          <path key={`${x}-${y}`} d={`M${x} ${y - 46} l40 23 v46 l-40 23 l-40 -23 v-46 z`} stroke="#1677FF" strokeOpacity=".18" />
+          <path key={`${x}-${y}`} d={`M${x} ${y - 46} l40 23 v46 l-40 23 l-40 -23 v-46 z`} stroke="#00D4FF" strokeOpacity=".28" />
         ))}
       </g>
       <g className="lattice__front">
@@ -142,7 +142,7 @@ export function WhySection() {
 /** Contact details + form. `heading` is passed on pages where this is not under an <h1>. */
 export function ContactSection({ heading = true }) {
   return (
-    <section className={`section dark contact ${heading ? "" : "contact--page"}`} id="contact" data-robot="greet" data-robot-hint={heading ? "contact" : undefined}>
+    <section className={`section dark contact ${heading ? "" : "contact--page"}`} id="contact" data-morph data-robot="greet" data-robot-hint={heading ? "contact" : undefined}>
       <div className="gridbg" aria-hidden="true" />
       <ZoomIn className="container contact__grid">
         <div>

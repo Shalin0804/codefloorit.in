@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#10243A" />
+    <meta name="theme-color" content="#05080F" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
     <link rel="manifest" href="/site.webmanifest" />
@@ -19,7 +19,7 @@
         "@context": "https://schema.org",
         "@graph": [
           {
-            "@type": "Organization",
+            "@type": ["Organization", "ProfessionalService"],
             "@id": "https://www.codefloorit.in/#organization",
             "name": "Codefloor IT",
             "legalName": "Codefloor IT Tech LLP",
@@ -32,6 +32,24 @@
               "addressLocality": "Ahmedabad",
               "addressRegion": "Gujarat",
               "addressCountry": "IN"
+            },
+            "image": "https://www.codefloorit.in/og.png",
+            "areaServed": [
+              { "@type": "City", "name": "Ahmedabad" },
+              { "@type": "State", "name": "Gujarat" },
+              { "@type": "Country", "name": "India" }
+            ],
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Software and web development services",
+              "itemListElement": [
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom Software Development", "url": "https://www.codefloorit.in/services/custom-software-development" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Application Development", "url": "https://www.codefloorit.in/services/web-application-development" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Business Website Development", "url": "https://www.codefloorit.in/services/business-website-development" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "E-commerce Development", "url": "https://www.codefloorit.in/services/ecommerce-development" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Website Modernization", "url": "https://www.codefloorit.in/services/website-modernization" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Maintenance & Technical Support", "url": "https://www.codefloorit.in/services/maintenance-technical-support" } }
+              ]
             },
             "description": "Web and software development company in Ahmedabad, Gujarat, building custom software, web applications, business websites and e-commerce experiences.",
             "knowsAbout": [
@@ -59,6 +77,7 @@
             "@id": "https://www.codefloorit.in/#website",
             "url": "https://www.codefloorit.in/",
             "name": "Codefloor IT",
+            "inLanguage": "en-IN",
             "publisher": { "@id": "https://www.codefloorit.in/#organization" }
           }
         ]

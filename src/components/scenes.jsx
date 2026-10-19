@@ -28,7 +28,7 @@ export function WorkScene() {
   const ref = useScrollProgress("pin", (p) => setActive(Math.round(p * (n - 1))));
 
   return (
-    <section className="scene scene--work" ref={ref} style={{ "--n": n }} data-robot="explore" data-robot-hint="work">
+    <section className="scene scene--work" ref={ref} style={{ "--n": n }} data-robot="explore" data-morph data-robot-hint="work">
       <div className="scene__pin">
         <div className="container">
           <header className="wscene__head">

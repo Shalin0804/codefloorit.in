@@ -1,4 +1,4 @@
-import { useSeo, breadcrumbLd, crumbs } from "../lib/seo";
+import { useSeo, breadcrumbLd, crumbs, itemListLd } from "../lib/seo";
 import { projects } from "../data/projects";
 import { CtaBand, PageHero } from "../components/ui";
 import { ProjectCard } from "../components/cards";
@@ -11,7 +11,8 @@ export default function Work() {
     description:
       "Projects by Codefloor IT across legal, hospitality and healthcare — with honest labels for what is completed and what is still in development.",
     path: "/work",
-    jsonLd: breadcrumbLd(trail),
+    pageType: "CollectionPage",
+    jsonLd: [breadcrumbLd(trail), itemListLd(projects.map((p) => ({ name: p.title, path: `/work/${p.slug}` })))],
   });
 
   return (

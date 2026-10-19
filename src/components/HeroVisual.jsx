@@ -194,7 +194,7 @@ export default function HeroVisual() {
             <circle cx="36" cy="260" r="4" fill="#7C5CFF" />
           </g>
           <g className="hv__ring hv__ring--b">
-            <circle cx="260" cy="260" r="160" stroke="#10243A" strokeOpacity=".12" />
+            <circle cx="260" cy="260" r="160" stroke="#7FB8FF" strokeOpacity=".22" />
             <circle cx="260" cy="100" r="5" fill="#1677FF" />
             <circle cx="398.6" cy="340" r="4" fill="#00D4FF" />
           </g>

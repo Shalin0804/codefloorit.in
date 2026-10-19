@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { Clock } from "lucide-react";
-import { useSeo, breadcrumbLd, crumbs } from "../lib/seo";
+import { useSeo, breadcrumbLd, crumbs, itemListLd } from "../lib/seo";
 import { articles, CATEGORIES } from "../data/insights";
 import { CtaBand, PageHero, Reveal } from "../components/ui";
 
@@ -39,7 +39,8 @@ export default function Insights() {
     description:
       "Plain-language guides from Codefloor IT on business websites, custom software, hotel booking systems and patient management software.",
     path: "/insights",
-    jsonLd: breadcrumbLd(trail),
+    pageType: "CollectionPage",
+    jsonLd: [breadcrumbLd(trail), itemListLd(articles.map((a) => ({ name: a.title, path: `/insights/${a.slug}` })))],
   });
 
   return (

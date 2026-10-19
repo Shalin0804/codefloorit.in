@@ -12,6 +12,7 @@ export default function Services() {
     description:
       "Custom software, web applications, business websites, e-commerce, website modernization and ongoing technical support from Codefloor IT.",
     path: "/services",
+    pageType: "CollectionPage",
     jsonLd: [
       breadcrumbLd(trail),
       {

@@ -11,9 +11,10 @@ export const SeoSink = createContext(null);
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 
-function resolve({ title, description, path = "/", type = "website", jsonLd, noindex }) {
+function resolve({ title, description, path = "/", type = "website", pageType, jsonLd, noindex }) {
   const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
-  const blocks = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
+  const blocks = Array.isArray(jsonLd) ? [...jsonLd] : jsonLd ? [jsonLd] : [];
+  if (pageType) blocks.unshift(pageLd(pageType, { title: fullTitle, description, path }));
   return { fullTitle, description, url: `${SITE_URL}${path}`, type, blocks, noindex };
 }
 
@@ -23,7 +24,7 @@ export function headHtml(cfg) {
   return [
     `<title>${esc(s.fullTitle)}</title>`,
     `<meta name="description" content="${esc(s.description)}" />`,
-    s.noindex ? `<meta name="robots" content="noindex" />` : `<meta name="robots" content="index, follow" />
+    s.noindex ? `<meta name="robots" content="noindex" />` : `<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
     <link rel="canonical" href="${s.url}" />`,
     `<meta property="og:type" content="${s.type}" />`,
     `<meta property="og:locale" content="en_IN" />`,
@@ -31,6 +32,7 @@ export function headHtml(cfg) {
     `<meta property="og:description" content="${esc(s.description)}" />`,
     `<meta property="og:url" content="${s.url}" />`,
     `<meta property="og:image" content="${OG_IMAGE}" />`,
+    `<meta property="og:image:alt" content="${SITE_NAME} — web and software development company in Ahmedabad" />`,
     `<meta name="twitter:title" content="${esc(s.fullTitle)}" />`,
     `<meta name="twitter:description" content="${esc(s.description)}" />`,
     `<meta name="twitter:image" content="${OG_IMAGE}" />`,
@@ -107,6 +109,36 @@ export function faqLd(faqs) {
   };
 }
 
+/* Where the business works: local first, then the rest of India and remote clients. */
+export const AREA_SERVED = [
+  { "@type": "City", name: "Ahmedabad" },
+  { "@type": "State", name: "Gujarat" },
+  { "@type": "Country", name: "India" },
+];
+
+/** WebPage subtype for pages that are not articles or services (AboutPage, ContactPage, CollectionPage…). */
+export function pageLd(type, { title, description, path }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": type,
+    name: title,
+    description,
+    url: `${SITE_URL}${path}`,
+    inLanguage: "en-IN",
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    about: { "@id": `${SITE_URL}/#organization` },
+  };
+}
+
+/** ItemList of links, e.g. the projects on /work or the articles on /insights. */
+export function itemListLd(items) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: items.map((it, i) => ({ "@type": "ListItem", position: i + 1, name: it.name, url: `${SITE_URL}${it.path}` })),
+  };
+}
+
 export function serviceLd({ name, description, path }) {
   return {
     "@context": "https://schema.org",
@@ -114,6 +146,7 @@ export function serviceLd({ name, description, path }) {
     name,
     description,
     serviceType: name,
+    areaServed: AREA_SERVED,
     provider: { "@id": `${SITE_URL}/#organization` },
     url: `${SITE_URL}${path}`,
   };
@@ -125,6 +158,8 @@ export function articleLd({ title, description, path, date }) {
     "@type": "Article",
     headline: title,
     description,
+    image: OG_IMAGE,
+    inLanguage: "en-IN",
     datePublished: date,
     dateModified: date,
     author: { "@id": `${SITE_URL}/#organization` },
