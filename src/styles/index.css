@@ -2314,6 +2314,26 @@ body::after {
 .asst__send { background: var(--cyan); color: #04121f; }
 .asst__hint { background: rgb(11 19 34 / 0.96); }
 
+/* hero: a neon grid floor rolling toward the viewer, under the copy. It moves by
+   transform (one grid cell per loop) so the compositor animates it without repaints. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: auto -50% 0;
+  height: 60%;
+  background:
+    linear-gradient(rgb(0 212 255 / 0.85) 1.5px, transparent 1.5px) 0 0 / 100% 56px,
+    linear-gradient(90deg, rgb(124 92 255 / 0.8) 1.5px, transparent 1.5px) 0 0 / 56px 100%;
+  transform: perspective(420px) rotateX(62deg) translateY(0);
+  transform-origin: 50% 100%;
+  mask-image: linear-gradient(transparent, #000 70%);
+  opacity: 0.8;
+  pointer-events: none;
+  animation: floor 2.4s linear infinite;
+}
+@keyframes floor { to { transform: perspective(420px) rotateX(62deg) translateY(56px); } }
+.lite .hero::before { animation: none; }
+
 /* home page particle field (WebGL, desktop only): fixed behind every section, it morphs
    shape as the page scrolls. z-index -1 keeps it under all content, above the starfield. */
 .s3d--morph { position: fixed; inset: 0; z-index: -1; width: 100%; height: 100vh; }
@@ -2361,6 +2381,44 @@ body::after {
   pointer-events: none;
   will-change: transform;
 }
+/* HUD reticle: a corner-bracketed ring that trails the cursor (the real cursor stays) */
+.fx-reticle {
+  position: fixed;
+  top: -18px;
+  left: -18px;
+  z-index: 71;
+  width: 36px;
+  height: 36px;
+  pointer-events: none;
+  will-change: transform;
+  transition: opacity var(--t-fast);
+}
+.fx-reticle::before,
+.fx-reticle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  transition: inset 0.3s var(--ease), border-radius 0.3s var(--ease), border-color 0.3s, rotate 0.3s var(--ease);
+}
+.fx-reticle::before { border: 1px solid rgb(0 212 255 / 0.55); box-shadow: 0 0 12px rgb(0 212 255 / 0.35); }
+/* four corner ticks, drawn as gradients on the second ring */
+.fx-reticle::after {
+  inset: -6px;
+  border-radius: 0;
+  background:
+    linear-gradient(var(--cyan), var(--cyan)) 0 0 / 8px 1.5px no-repeat,
+    linear-gradient(var(--cyan), var(--cyan)) 0 0 / 1.5px 8px no-repeat,
+    linear-gradient(var(--cyan), var(--cyan)) 100% 100% / 8px 1.5px no-repeat,
+    linear-gradient(var(--cyan), var(--cyan)) 100% 100% / 1.5px 8px no-repeat;
+  opacity: 0;
+  transition: opacity 0.25s, inset 0.3s var(--ease);
+}
+.fx-reticle.is-hot::before { inset: 9px; border-color: var(--cyan); background: rgb(0 212 255 / 0.25); }
+.fx-reticle.is-hot::after { inset: -2px; opacity: 1; animation: spin 3s linear infinite; }
+.fx-reticle.is-down::before { inset: 13px; }
+.fx-reticle.is-away { opacity: 0; }
+
 /* tilt toward the pointer; outranks the reveal rule that resets transform */
 .fx :is(.card, .tech__card, .wpanel__media):hover,
 .anim.fx .card.reveal.is-in:nth-child(n):hover {

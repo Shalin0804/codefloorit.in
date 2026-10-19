@@ -36,7 +36,8 @@ export default function Scene3D({ kind = "cluster" }) {
     );
     // wait for the page to settle so the 3D code never competes with first paint
     const idle = window.requestIdleCallback ?? ((fn) => setTimeout(fn, 600));
-    const handle = idle(() => io.observe(canvas));
+    // (with a deadline: constant animation elsewhere can starve idle time indefinitely)
+    const handle = idle(() => io.observe(canvas), { timeout: 2000 });
 
     return () => {
       dead = true;
