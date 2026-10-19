@@ -2,13 +2,15 @@ import { Link } from "react-router";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { CONTACT, NAV, whatsappLink } from "../data/site";
 import { services } from "../data/services";
+import { useScrollProgress } from "../lib/motion";
 import { Logo, Marquee, Reveal } from "./ui";
 
 const YEAR = new Date().getFullYear();
 
 export default function Footer() {
+  const fill = useScrollProgress("enter");
   return (
-    <footer className="footer">
+    <footer className="footer" ref={fill}>
       <Marquee items={services.map((s) => s.title)} />
       <div className="footer__geo" aria-hidden="true" />
       <div className="container footer__grid">
@@ -58,6 +60,8 @@ export default function Footer() {
           </ul>
         </Reveal>
       </div>
+
+      <p className="footer__mega" aria-hidden="true">CODEFLOOR</p>
 
       <div className="container footer__base">
         <p>© {YEAR} Codefloor IT. All rights reserved.</p>

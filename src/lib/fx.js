@@ -64,7 +64,19 @@ export function initFx() {
     reticle.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
     raf = Math.abs(x - rx) + Math.abs(y - ry) > 0.5 ? requestAnimationFrame(paint) : 0;
   };
-  document.addEventListener("pointerdown", () => reticle.classList.add("is-down"));
+  document.addEventListener("pointerdown", (e) => {
+    reticle.classList.add("is-down");
+    // shockwave at the click, and the origin for the next page's portal reveal
+    const ring = document.createElement("span");
+    ring.className = "fx-shock";
+    ring.setAttribute("aria-hidden", "true");
+    ring.style.left = `${e.clientX}px`;
+    ring.style.top = `${e.clientY}px`;
+    ring.addEventListener("animationend", () => ring.remove());
+    document.body.appendChild(ring);
+    html.style.setProperty("--cx", `${e.clientX}px`);
+    html.style.setProperty("--cy", `${e.clientY}px`);
+  });
   document.addEventListener("pointerup", () => reticle.classList.remove("is-down"));
   document.documentElement.addEventListener("pointerleave", () => reticle.classList.add("is-away"));
   document.documentElement.addEventListener("pointerenter", () => reticle.classList.remove("is-away"));
@@ -95,6 +107,28 @@ export function initFx() {
     const el = e.target.closest?.(SCRAMBLE);
     if (el && !el.contains(e.relatedTarget)) scramble(el);
   });
+
+  // tickers speed up and lean with the scroll, then settle back
+  let lastY = scrollY;
+  let vel = 0;
+  let spinning = 0;
+  const settle = () => {
+    vel *= 0.9;
+    html.style.setProperty("--skew", `${Math.max(-12, Math.min(12, vel * -0.25)).toFixed(2)}deg`);
+    for (const track of document.querySelectorAll(".mq__track")) {
+      for (const a of track.getAnimations()) a.playbackRate = 1 + Math.min(6, Math.abs(vel) * 0.12);
+    }
+    spinning = Math.abs(vel) > 0.05 ? requestAnimationFrame(settle) : 0;
+  };
+  addEventListener(
+    "scroll",
+    () => {
+      vel = vel * 0.6 + (scrollY - lastY) * 0.4;
+      lastY = scrollY;
+      if (!spinning) spinning = requestAnimationFrame(settle);
+    },
+    { passive: true }
+  );
 
   // section headings decode once, word by word, when they scroll into view
   const io = new IntersectionObserver(
